@@ -19,7 +19,7 @@
       "version_requirement": ">= 5.0.0"
     },
     {
-      "name": "puppet-php"
+      "name": "puppet-php",
       "version_requirement": ">= 6.0.0 <= 7.0.0"
     },
     {
@@ -29,9 +29,7 @@
     {
       "name": "puppet-archive",
       "version_requirement": ">= 3.0.0"
-    },
-  ],
-
+    }
   ],
   "operatingsystem_support": [
     {
@@ -43,9 +41,9 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "8"
+        "7"
       ]
-    },
+    }
   ],
   "requirements": [
     {
