@@ -1,0 +1,35 @@
+---
+nextcloud::php::extensions: {}
+nextcloud::php::fpm_pools:
+  'www':
+    'env_value':
+      'HOSTNAME': '$HOSTNAME'
+      'PATH': '/usr/local/bin:/usr/bin:/bin'
+      'TMP': '/tmp'
+      'TMPDIR': '/tmp'
+      'TEMP': '/tmp'
+    'php_value':
+      'opcache.enable': 1
+      'opcache.interned_strings_buffer': 8
+      'opcache.max_accelerated_files': 10000
+      'opcache.memory_consumption': 128
+      'opcache.save_comments': 1
+      'opcache.revalidate_freq': 1
+    'pm': 'dynamic'
+    'pm_max_children': 120
+    'pm_start_servers': 12
+    'pm_min_spare_servers': 6
+    'pm_max_spare_servers': 18
+nextcloud::php::fpm_group: 'nginx'
+nextcloud::php::fpm_user: 'nginx'
+nextcloud::php::packages:
+  - 'php-gd'
+  - 'php-intl'
+  - 'php-mbstring'
+  - 'php-mysqlnd'
+  - 'php-opcache'
+  - 'php-pecl-imagick'
+  - 'php-pecl-zip'
+nextcloud::php::settings:
+  'PHP/memory_limit': '512M'
+...

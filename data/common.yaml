@@ -1,0 +1,59 @@
+---
+nextcloud::admin_user: 'admin'
+nextcloud::admin_password: 'admin.secret.pass'
+nextcloud::base_dir: '/var/www/html'
+nextcloud::data_dir: '/var/www/html/nextcloud/data'
+nextcloud::db_host: 'localhost'
+nextcloud::db_name: 'nextcloud'
+nextcloud::db_table_prefix: 'oc'
+nextcloud::db_type: 'mysql'
+nextcloud::db_user: 'nextcloud'
+nextcloud::db_user_password: 'nextcloud.secret.pass'
+nextcloud::fpm_user: 'nginx'
+nextcloud::fpm_group: 'nginx'
+nextcloud::install_dir: '/var/www/html/nextcloud'
+nextcloud::manage_db: true
+nextcloud::manage_php: true
+nextcloud::manage_epel_repo: true
+nextcloud::manage_remi_repo: true
+nextcloud::manage_redis: true
+nextcloud::manage_web: true
+nextcloud::mysql_override_options:
+  'mysqld':
+    'innodb_large_prefix': 'true'
+    'innodb_file_format': 'barracuda'
+    'innodb_file_per_table': '1'
+nextcloud::mysql_root_password: 'mysql'
+nextcloud::php_fpm_pools:
+  'www':
+    'env_value':
+      'HOSTNAME': '$HOSTNAME'
+      'PATH': '/usr/local/bin:/usr/bin:/bin'
+      'TMP': '/tmp'
+      'TMPDIR': '/tmp'
+      'TEMP': '/tmp'
+    'php_value':
+      'opcache.enable': 1
+      'opcache.interned_strings_buffer': 8
+      'opcache.max_accelerated_files': 10000
+      'opcache.memory_consumption': 128
+      'opcache.save_comments': 1
+      'opcache.revalidate_freq': 1
+    'pm': 'dynamic'
+    'pm_max_children': 120
+    'pm_start_servers': 12
+    'pm_min_spare_servers': 6
+    'pm_max_spare_servers': 18
+nextcloud::php_version: '7.3'
+nextcloud::redis_packages:
+  - 'php-redis'
+nextcloud::remi_repo_vers: 'unknown'
+nextcloud::src_url: 'https://download.nextcloud.com/server/releases'
+nextcloud::src_tar: "nextcloud-${nextcloud::version}.tar.bz2"
+nextcloud::system_user: 'nginx'
+nextcloud::trusted_domains:
+  - 'localhost'
+nextcloud::version: '17.0.3'
+
+...
+

@@ -1,0 +1,103 @@
+---
+nextcloud::webserver::server_name: &servername 'nextcloud.example.com'
+nextcloud::webserver::resource_location:
+  'root':
+    location: '/'
+    rewrite_rules: 
+      - '^ /index.php$uri'
+    priority: 401
+  'misc':
+    location: '~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/'
+    location_deny: 
+      - 'all'
+    priority: 402
+  'internal':
+    location: '~ ^/(?:\.|autotest|occ|issue|indie|db_|console)'
+    location_deny: 
+      - 'all'
+    priority: 403
+  'nextcloud':
+    location: '~ ^/(?:index|remote|public|cron|core/ajax/update|status|ocs/v[12]|updater/.+|ocs-provider/.+)\.php(?:$|/)'
+    raw_append:
+      - 'fastcgi_split_path_info ^(.+\.php)(/.*)$;'
+      - 'include fastcgi_params;'
+      - 'fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;'
+      - 'fastcgi_param PATH_INFO $fastcgi_path_info;'
+      - 'fastcgi_param HTTPS on;'
+      - 'fastcgi_param modHeadersAvailable true;'
+      - 'fastcgi_param front_controller_active true;'
+      - 'fastcgi_pass php-handler;'
+      - 'fastcgi_intercept_errors on;'
+      - 'fastcgi_request_buffering off;'
+    priority: 404
+  'updater':
+    index_files:
+      - 'index.php'
+    location: '~ ^/(?:updater|ocs-provider)(?:$|/)'
+    try_files: 
+      - '$uri/ =404'
+    priority: 405
+  'css_js':
+    index_files:
+      - 'index.php'
+    location: '~ \.(?:css|js|woff|svg|gif)$'
+    try_files: 
+      - '$uri'
+      - '/index.php$uri$is_args$args'
+    add_header:
+      'Cache-Control': 'public, max-age=15778463'
+      'X-Content-Type-Options': 'nosniff'
+      'X-XSS-Protection': '1; mode=block'
+      'X-Robots-Tag': 'None'
+      'X-Download-Options': 'noopen'
+      'X-Permitted-Cross-Domain-Policies': 'none'
+    location_cfg_append: 
+      'access_log': 'off'
+    priority: 406
+  'static_media_pictures':
+    location: '~ \.(?:png|html|ttf|ico|jpg|jpeg)$'
+    try_files:
+      - '$uri'
+      - '/index.php$uri$is_args$args'
+    location_cfg_append:
+      'access_log': 'off'
+    priority: 407
+  'carddav':
+    location: '= /.well-known/carddav'
+    location_cfg_append:
+      'return': '301 $scheme://$host/remote.php/dav'
+    priority: 408
+  'caldav':
+    location: '= /.well-known/caldav'
+    location_cfg_append:
+      'return': '301 $scheme://$host/remote.php/dav'
+    priority: 409
+nextcloud::webserver::resource_server:
+  *servername:
+    ensure: 'present'
+    server_name:
+      - *servername
+    ssl: true
+    ssl_cert: '/etc/ssl/certs/nginx-selfsigned.crt'
+    ssl_key: '/etc/ssl/private/nginx-selfsigned.key'
+    http2: 'on'
+    www_root: '/var/www/html/nextcloud'
+    client_max_body_size: '512M'
+    use_default_location: false
+    add_header: 
+      'X-Content-Type-Options': 'nosniff'
+      'X-XSS-Protection': '1; mode=block'
+      'X-Robots-Tag': 'none'
+      'X-Download-Options': 'noopen'
+      'X-Permitted-Cross-Domain-Policies': 'none'
+      'X-Frame-Options': 'SAMEORIGIN'
+      'Referrer-Policy': "no-referrer"
+      'Strict-Transport-Security': 'max-age=15768000; includeSubDomains; preload'
+    server_cfg_prepend:
+      'gzip': 'on'
+      'gzip_vary': 'on'
+      'gzip_comp_level': '4'
+      'gzip_min_length': '256'
+      'gzip_proxied': 'expired no-cache'
+nextcloud::webserver::worker_processes: 2
+...
