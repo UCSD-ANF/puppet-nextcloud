@@ -76,7 +76,7 @@ nextcloud::webserver::resource_server:
   "%{::fqdn}":
     ensure: 'present'
     server_name:
-      - "%{::fqdn}":
+      - "%{::fqdn}"
     ssl: true
     ssl_cert: '/etc/ssl/certs/nginx-selfsigned.crt'
     ssl_key: '/etc/ssl/private/nginx-selfsigned.key'
