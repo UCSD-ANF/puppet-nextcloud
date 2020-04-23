@@ -1,5 +1,5 @@
 ---
-nextcloud::webserver::server_name: &servername 'nextcloud.example.com'
+nextcloud::webserver::server_name: 'nextcloud.example.com'
 nextcloud::webserver::resource_location:
   'root':
     location: '/'
@@ -73,10 +73,10 @@ nextcloud::webserver::resource_location:
       'return': '301 $scheme://$host/remote.php/dav'
     priority: 409
 nextcloud::webserver::resource_server:
-  *servername:
+  "%{::fqdn}":
     ensure: 'present'
     server_name:
-      - *servername
+      - "%{::fqdn}":
     ssl: true
     ssl_cert: '/etc/ssl/certs/nginx-selfsigned.crt'
     ssl_key: '/etc/ssl/private/nginx-selfsigned.key'
