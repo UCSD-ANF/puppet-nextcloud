@@ -4,7 +4,7 @@
   "author": "Adam Brust",
   "summary": "Puppet module for installing Nextcloud, supports nginx,mysql,php",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/UCSD-ANF/puppet-nextcloud",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
@@ -48,10 +48,10 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.10.0 < 7.0.0"
+      "version_requirement": ">= 4.10.0 < 8.0.0"
     }
   ],
-  "pdk-version": "1.17.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#1.17.0",
-  "template-ref": "1.17.0-0-gd3a4319"
+  "pdk-version": "2.7.1",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#2.7.4",
+  "template-ref": "tags/2.7.4-0-g58edf57"
 }
