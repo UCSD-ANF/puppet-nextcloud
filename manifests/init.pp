@@ -30,7 +30,6 @@ class nextcloud (
   Array $trusted_domains,
   String $version,
 ) {
-
   contain nextcloud::database
   contain 'nextcloud::webserver'
   contain 'nextcloud::repo'
@@ -46,6 +45,4 @@ class nextcloud (
   -> Class['nextcloud::install']
   -> Class['nextcloud::config']
   -> Class['nextcloud::redis']
-
 }
-  

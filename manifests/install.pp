@@ -1,8 +1,6 @@
 # == Class nextcloud::install
 #
 class nextcloud::install {
-
-
   $installcmd = "php occ maintenance:install --database '${nextcloud::db_type}' \
  --database-host ${nextcloud::db_host} \
  --database-name ${nextcloud::db_name} \
@@ -13,8 +11,8 @@ class nextcloud::install {
  --data-dir ${nextcloud::data_dir}"
 
   $tarname = "nextcloud-${nextcloud::version}.tar.bz2"
-  
-  file { [ $nextcloud::install_dir, $nextcloud::data_dir ]:
+
+  file { [$nextcloud::install_dir, $nextcloud::data_dir]:
     ensure => directory,
     owner  => $nextcloud::system_user,
     group  => $nextcloud::system_user,
@@ -22,10 +20,10 @@ class nextcloud::install {
   }
   ->  archive { $tarname:
     ensure       => present,
-    path         => "/tmp/$tarname",
+    path         => "/tmp/${tarname}",
     extract      => true,
     extract_path => $nextcloud::base_dir,
-    source       => "${nextcloud::src_url}/$tarname",
+    source       => "${nextcloud::src_url}/${tarname}",
     creates      => "${nextcloud::install_dir}/index.php",
     cleanup      => true,
     user         => $nextcloud::system_user,
@@ -36,7 +34,7 @@ class nextcloud::install {
     command => $installcmd,
     cwd     => $nextcloud::install_dir,
     user    => $nextcloud::system_user,
-    creates  => "${nextcloud::install_dir}/config/config.php"
+    creates => "${nextcloud::install_dir}/config/config.php",
   }
   -> exec { 'occ db:convert-filecache-bigint':
     path        => '/usr/sbin:/usr/bin:/sbin:/bin',
@@ -44,7 +42,4 @@ class nextcloud::install {
     cwd         => $nextcloud::install_dir,
     user        => $nextcloud::system_user,
     refreshonly => true,
-  }
-
-
-}
+} }
