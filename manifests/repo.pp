@@ -9,13 +9,13 @@ class nextcloud::repo {
         'remi'              => {
           descr      => 'Remi\'s RPM repository for Enterprise Linux $releasever - $basearch',
           enabled    => 1,
-          mirrorlist => 
+          mirrorlist =>
             "http://cdn.remirepo.net/enterprise/\$releasever/remi/mirror",
         },
         $remi_vers   => {
           descr      => 'Remi\'s PHP 7.3 RPM repository for Enterprise Linux $releasever - $basearch',
           enabled    => 1,
-          mirrorlist => 
+          mirrorlist =>
             "http://cdn.remirepo.net/enterprise/\$releasever/php${php_vers}/mirror",
           gpgcheck   => 1,
           gpgkey     => 'https://rpms.remirepo.net/RPM-GPG-KEY-remi',

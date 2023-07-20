@@ -3,4 +3,25 @@
 ---
 fixtures:
   forge_modules:
-#     stdlib: "puppetlabs/stdlib"
+    stdlib: "puppetlabs-stdlib"
+    php: "puppet-php"
+    nginx: "puppet-nginx"
+    mysql:
+      repo: "puppetlabs-mysql"
+      ref: "15.0.0"
+    epel: "puppet/epel"
+    archive: "puppet-archive"
+    yumrepo_core:
+      repo: "puppetlabs/yumrepo_core"
+      #ref: "1.1.0"
+    redis: "puppet-redis"
+    concat: # redis dependency
+      repo: "puppetlabs/concat"
+      #ref: "6.4.0"
+    systemd: # redis dependency
+      repo: "puppet-systemd"
+    inifile: # redis dependency
+      repo: "puppetlabs/inifile"
+      #ref: "5.3.0"
+  symlinks:
+    nextcloud: "#{source_dir}"
