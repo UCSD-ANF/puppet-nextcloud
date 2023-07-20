@@ -8,19 +8,15 @@ class nextcloud::php (
   Optional[Array] $packages,
   Variant[Undef, Hash] $settings,
 ) {
-
   if $nextcloud::manage_php {
-
     ensure_packages($packages)
 
-    class { '::php':
+    class { 'php':
       fpm_user   => $fpm_user,
       fpm_group  => $fpm_group,
       extensions => $extensions,
       settings   => $settings,
       fpm_pools  => $fpm_pools,
     }
-
   }
-
 }

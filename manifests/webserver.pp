@@ -6,7 +6,6 @@ class nextcloud::webserver (
   String $server_name,
   Integer $worker_processes,
 ) {
-
   class { 'nginx':
     manage_repo      => false,
     worker_processes => $worker_processes,
@@ -14,11 +13,10 @@ class nextcloud::webserver (
 
   create_resources('nginx::resource::server', $resource_server)
   create_resources('nginx::resource::location', $resource_location, {
-    ensure        => 'present',
-    index_files   => [],
-    server        => $server_name,
-    ssl           => true,
-    ssl_only      => true,
+      ensure        => 'present',
+      index_files   => [],
+      server        => $server_name,
+      ssl           => true,
+      ssl_only      => true,
   })
-
 }
